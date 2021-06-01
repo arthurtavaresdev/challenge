@@ -5,8 +5,8 @@
 use App\Account;
 use Faker\Generator as Faker;
 
-$factory->define(Account::class, function (Faker $faker) {
+$factory->define(\App\PersonalAccount::class, function (Faker $faker) {
     return [
-        //
+        'user_id' => factory(\App\User::class)
     ];
 });

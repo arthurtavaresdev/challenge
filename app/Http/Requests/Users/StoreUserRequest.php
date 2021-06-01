@@ -1,14 +1,11 @@
 <?php
 
-
-namespace App\Http\Requests\Account;
-
+namespace App\Http\Requests\Users;
 
 use App\Account;
-use App\Enums\AccountType;
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdateAccountRequest extends FormRequest
+class StoreUserRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -28,12 +25,12 @@ class UpdateAccountRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'agency' => 'integer',
-            'digit' => 'integer',
-            'number' => 'string',
-            'social_name' => 'string',
-            'corporate_name' => 'string',
-            'cnpj' => 'cnpj|unique:company_accounts',
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|string|max:255|unique:users',
+            'telephone' => 'required|max:255',
+            'cpf' => 'required|cpf|unique:users',
+            'password' => 'required|string|confirmed',
+            'account_id' => 'exists:'. Account::class .',id'
         ];
     }
 }

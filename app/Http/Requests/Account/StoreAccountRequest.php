@@ -3,6 +3,7 @@
 namespace App\Http\Requests\Account;
 
 use App\Account;
+use App\Enums\AccountType;
 use Illuminate\Foundation\Http\FormRequest;
 
 class StoreAccountRequest extends FormRequest
@@ -25,12 +26,13 @@ class StoreAccountRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required|string|max:255',
-            'email' => 'required|email|string|max:255|unique:users',
-            'telephone' => 'required|max:255',
-            'cpf' => 'required|cpf|unique:users',
-            'password' => 'required|string|confirmed',
-            'account_id' => 'exists:'. Account::class .',id'
+            'agency' => 'required|integer',
+            'digit' => 'required|integer',
+            'number' => 'string',
+            'type' => 'required|enum_key:' . AccountType::class . ',false',
+            'social_name' => 'required_if:type,' . AccountType::Company()->key .'|string',
+            'corporate_name' => 'required_if:type,' . AccountType::Company()->key .'|string',
+            'cnpj' => 'required_if:type,' . AccountType::Company()->key .'|cnpj|unique:company_accounts'
         ];
     }
 }

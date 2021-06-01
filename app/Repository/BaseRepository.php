@@ -5,24 +5,25 @@ namespace App\Repository;
 
 
 use App\Contracts\RepositoryInterface;
-use App\User;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
+use Exception;
 
-class UserRepository implements RepositoryInterface
+abstract class BaseRepository implements RepositoryInterface
 {
-    private User $model;
+    protected Model $model;
 
-    public function __construct(User $model)
+    public function __construct(Model $model)
     {
         $this->model = $model;
     }
 
-    public function create(array $attributes): User
+    public function create(array $attributes): Model
     {
         return $this->model->create($attributes);
     }
 
-    public function find($id): ?User
+    public function find($id): ?Model
     {
         return $this->model->find($id);
     }
@@ -32,4 +33,31 @@ class UserRepository implements RepositoryInterface
         return $this->model->all();
     }
 
+    /**
+     * @throws Exception
+     */
+    public function delete(?Model $model): bool
+    {
+        if($model && $model->exists){
+            return $model->delete() ?? false;
+        }
+
+        return false;
+    }
+
+    public function update(Model $model, array $attributes): ?Model
+    {
+       if($model){
+           $new = $model->fill($attributes);
+           $success = $model->save();
+
+           if(!$success){
+               return null;
+           }
+
+           return $new;
+       }
+
+       return null;
+    }
 }

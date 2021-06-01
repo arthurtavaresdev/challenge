@@ -6,7 +6,7 @@ use App\Enums\AccountType;
 use App\PersonalAccount;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class UserSimpleResource extends JsonResource
+class AccountSimpleResource extends JsonResource
 {
     public $preserveKeys = true;
 
@@ -18,8 +18,10 @@ class UserSimpleResource extends JsonResource
      */
     public function toArray($request): array
     {
+
         return [
-            'user' => $this->user
+            'account' => $this->account,
+            'user' => $this->account->user
         ];
     }
 }

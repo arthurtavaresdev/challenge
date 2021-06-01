@@ -6,7 +6,6 @@ namespace App\Contracts;
 
 use Illuminate\Database\Eloquent\Collection;
 
-interface UserRepositoryInterface extends RepositoryInterface
+interface TransactionRepositoryInterface extends RepositoryInterface
 {
-    public function search($value): Collection;
 }

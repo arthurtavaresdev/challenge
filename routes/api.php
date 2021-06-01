@@ -1,6 +1,8 @@
 <?php
 
-use Illuminate\Http\Request;
+use App\Http\Controllers\UsersController;
+use App\Http\Controllers\AccountController;
+use App\Http\Controllers\TransactionController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,6 +16,16 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
-});
+Route::post('/users',  [UsersController::class, 'store']);
+Route::get('/users', [UsersController::class, 'index']);
+Route::get('/users/{id}', [UsersController::class, 'show']);
+Route::put('/users/{id}', [UsersController::class, 'update']);
+Route::delete('/users/{id}', [UsersController::class, 'destroy']);
+
+Route::post('/accounts',  [AccountController::class, 'store']);
+Route::get('/accounts', [AccountController::class, 'index']);
+Route::get('/accounts/{id}', [AccountController::class, 'show']);
+Route::put('/accounts/{id}', [AccountController::class, 'update']);
+Route::delete('/accounts/{id}', [AccountController::class, 'destroy']);
+
+Route::post('/transaction',  [TransactionController::class, 'store']);
